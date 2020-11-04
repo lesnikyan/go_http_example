@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+</head>
+<body>
+    <div>
+        <a href="/abc=1some_request_content&param1=111a.one" id="menu">page1</a>
+        <a href="/sublvl/?param=33%2033#33" id="menu">page3</a>
+        <a href="/?param2=2222-bbb&param2_2=_2-2-2-2-2" id="menu">page2</a>
+    </div>
+    <div id="content">
+    {{.Content}}
+    </div>
+    <div>page {{ .Page}}</div>
+</body>
+</html>

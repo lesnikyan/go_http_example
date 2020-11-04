@@ -5,9 +5,12 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
+	"github.com/lesnikyan/go_http_example/routes"
 	// "strings"
 )
 
+// "github.com/lesnikyan/go_http_example/routes"
 /*
 testing:
 $ ab -n 20000 -c 10 http://localhost:82/
@@ -16,7 +19,7 @@ $ ab -n 20000 -c 10 http://localhost:82/
 
 func main() {
 
-	routes.hrout()
+	routes.Hrout()
 
 	http.HandleFunc("/abc", handleSpec)
 
@@ -28,7 +31,7 @@ func main() {
 		handleRoot(w, rq)
 	})
 
-	log.Fatal(http.ListenAndServe(":82", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 // TplData Index page content
@@ -74,7 +77,7 @@ func handleRoot(w http.ResponseWriter, rq *http.Request) {
 
 // tpl render
 func render(w http.ResponseWriter, data TplData) {
-	tpl, err := template.ParseFiles("src/index.html")
+	tpl, err := template.ParseFiles("templates/index.html")
 
 	if err != nil {
 		log.Fatal(err)
