@@ -19,15 +19,21 @@ $ ab -n 20000 -c 10 http://localhost:82/
 
 func main() {
 
-	routes.Hrout()
+	// use custom handler
 
-	http.HandleFunc("/abc", handleSpec)
+	xhandler := routes.RegexpHandler{}
+
+	xhandler.HandleRegexp("/abc\\=.+", handleAbc)
+
+	xhandler.HandleRegexp("/", handleRoot)
+
+	http.Handle("/", xhandler)
+
+	// use net/http handler
+
+	http.HandleFunc("/zzz/", handleSpec)
 
 	http.HandleFunc("/sublvl", func(w http.ResponseWriter, rq *http.Request) {
-		handleRoot(w, rq)
-	})
-
-	http.HandleFunc("/", func(w http.ResponseWriter, rq *http.Request) {
 		handleRoot(w, rq)
 	})
 
@@ -39,6 +45,19 @@ type TplData struct {
 	Title   string
 	Content string
 	Page    int
+}
+
+func handleAbc(w http.ResponseWriter, rq *http.Request) {
+
+	uri := rq.RequestURI
+
+	tpdata := TplData{
+		Title:   "Hello page",
+		Content: "ABC URL: " + uri,
+		Page:    1,
+	}
+
+	render(w, tpdata)
 }
 
 // specific url handler
@@ -65,14 +84,6 @@ func handleRoot(w http.ResponseWriter, rq *http.Request) {
 	}
 
 	render(w, tpdata)
-
-	// tpl, err := template.ParseFiles("src/index.html")
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// tpl.Execute(w, tpdata)
 }
 
 // tpl render

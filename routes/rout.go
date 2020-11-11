@@ -5,16 +5,12 @@ import (
 	"regexp"
 )
 
-// Hrout ...
-func Hrout() {
-	//fmt.Println("My rout mod")
-}
-
 type xrout struct {
 	pattern *regexp.Regexp
 	handler http.Handler
 }
 
+// RegexpHandler - custom handler for routing via Regexp
 type RegexpHandler struct {
 	routes []*xrout
 }
@@ -38,7 +34,7 @@ func (rh *RegexpHandler) HandleRegexp(pattern string, fhandler func(http.Respons
 }
 
 // ServeHTTP ...
-func (rh *RegexpHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
+func (rh RegexpHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
 	for _, rout := range rh.routes {
 		if rout.pattern.MatchString(rq.URL.Path) {
 			rout.handler.ServeHTTP(rw, rq)
